@@ -119,7 +119,10 @@ public class DigiClock extends JFrame implements Runnable {
 
         // 重写 paintComponent 避免闪烁
         public void paintComponent(Graphics mg) {
-            Graphics2D g2d = (Graphics2D) mg; // 转换为 G2D 方便调整线条粗细
+            // 转换为 G2D 方便使用高级设置
+            Graphics2D g2d = (Graphics2D) mg;
+            // 开启字体抗锯齿
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             super.paintComponent(g2d);
             // 设置线条粗细和字体
             g2d.setStroke(new BasicStroke(2f));
