@@ -15,6 +15,7 @@ public class DigiClock extends JFrame implements Runnable {
     public Thread clockThread; // 时钟运作线程
     public int xCAxis; // 数字钟主显示 Panel 中心点 x 坐标
     public int yCAxis; // 数字钟主显示 Panel 中心点 y 坐标
+    public Font clockPanelFont = new Font("Arial", Font.BOLD, 72); // 数字钟主显示 Panel 字体
 
     public DigiClock() {
         initComponents(); // 初始化 NetBeans 生成组件
@@ -126,14 +127,18 @@ public class DigiClock extends JFrame implements Runnable {
             super.paintComponent(g2d);
             // 设置线条粗细和字体
             g2d.setStroke(new BasicStroke(2f));
-            g2d.setFont(new Font("Arial", Font.BOLD, 72));
+            g2d.setFont(clockPanelFont);
             // 获取当前日期和时间
             Calendar cal = Calendar.getInstance();
             // 绘制字符串显示的日期和时间
             String date = (new SimpleDateFormat("yyyy-MM-dd")).format(cal.getTime());
             String time = (new SimpleDateFormat("HH:mm:ss")).format(cal.getTime());
-            g2d.drawString(date, xCAxis - 180, yCAxis - 50);
-            g2d.drawString(time, xCAxis - 150, yCAxis + 50);
+            // 居中绘制字符串
+            FontMetrics dateFm = g2d.getFontMetrics(clockPanelFont);
+            int dateWidth = dateFm.stringWidth(date);
+            int timeWidth = dateFm.stringWidth(time);
+            g2d.drawString(date, xCAxis - dateWidth / 2, yCAxis - 50);
+            g2d.drawString(time, xCAxis - timeWidth / 2, yCAxis + 50);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
