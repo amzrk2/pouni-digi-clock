@@ -41,7 +41,9 @@ public class DigiClock extends JFrame implements Runnable {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("数字时钟");
         setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
+        setResizable(false);
 
         jMenuBar1.setFont(getFont());
 
@@ -59,11 +61,11 @@ public class DigiClock extends JFrame implements Runnable {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 649, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 457, Short.MAX_VALUE)
+            .addGap(0, 574, Short.MAX_VALUE)
         );
 
         pack();
@@ -72,16 +74,22 @@ public class DigiClock extends JFrame implements Runnable {
     // 初始化自定义数字钟主显示 Panel
     private void initClockDrawPanel() {
         clockPanel = new ClockDrawPanel();
-        clockPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        clockPanel.setPreferredSize(new Dimension(500, 500));
-        GroupLayout clockPanelLayout = new GroupLayout(clockPanel);
-        clockPanel.setLayout(clockPanelLayout);
-        clockPanelLayout.setHorizontalGroup(clockPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGap(0, 508, Short.MAX_VALUE));
-        clockPanelLayout.setVerticalGroup(clockPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGap(0, 508, Short.MAX_VALUE));
+        clockPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // 边框
+        clockPanel.setPreferredSize(new Dimension(740, 150)); // 设置主显 Panel 大小
+        // 将主显 Panel 加入 mainFrame 的 layout
+        // mainFrame 的 layout 已于 initComponents() 中修改过，这里获取并修改
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(clockPanel, GroupLayout.PREFERRED_SIZE, 512, GroupLayout.PREFERRED_SIZE).addContainerGap()));
-        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup().addContainerGap().addComponent(clockPanel, GroupLayout.PREFERRED_SIZE, 512, GroupLayout.PREFERRED_SIZE).addContainerGap()));
+        // 左右 30px
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30).addComponent(clockPanel).addGap(30, 30, 30))
+        );
+        // 上 30px 下 max 420px
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30).addComponent(clockPanel).addContainerGap(420, Short.MAX_VALUE))
+        );
         pack();
     }
 
@@ -135,10 +143,10 @@ public class DigiClock extends JFrame implements Runnable {
             String time = (new SimpleDateFormat("HH:mm:ss")).format(cal.getTime());
             // 居中绘制字符串
             FontMetrics dateFm = g2d.getFontMetrics(clockPanelFont);
-            int dateWidth = dateFm.stringWidth(date);
+            int fontHeight = dateFm.getHeight(); // 字体高度
+            int dateWidth = dateFm.stringWidth(date); // 各字符串宽度
             int timeWidth = dateFm.stringWidth(time);
-            g2d.drawString(date, xCAxis - dateWidth / 2, yCAxis - 50);
-            g2d.drawString(time, xCAxis - timeWidth / 2, yCAxis + 50);
+            g2d.drawString(time, xCAxis / 2 - timeWidth / 2, yCAxis + fontHeight / 2);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
