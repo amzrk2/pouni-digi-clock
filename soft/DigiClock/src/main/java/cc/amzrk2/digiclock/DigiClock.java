@@ -6,22 +6,17 @@ package cc.amzrk2.digiclock;
 
 import java.awt.*;
 import javax.swing.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class DigiClock extends JFrame implements Runnable {
 
     public ClockDrawPanel clockPanel; // 数字钟主显示 Panel
     public Thread clockThread; // 时钟运作线程
-    public int xCAxis; // 数字钟主显示 Panel 中心点 x 坐标
-    public int yCAxis; // 数字钟主显示 Panel 中心点 y 坐标
-    public Font clockPanelFont = new Font("Arial", Font.BOLD, 72); // 数字钟主显示 Panel 字体
 
     public DigiClock() {
         initComponents(); // 初始化 NetBeans 生成组件
-        initClockDrawPanel(); // 初始化自定义数字钟主显示 Panel
-        xCAxis = clockPanel.getWidth() / 2; // 数字钟主显示 Panel 中心点 x 坐标
-        yCAxis = clockPanel.getHeight() / 2 - 15; // 数字钟主显示 Panel 中心点 x 坐标
+        // 初始化自定义数字钟主显示 Panel
+        initClockDrawPanel();
+        clockPanel.initClockPanelData();
         // 启动时钟运作线程
         clockThread = new Thread(this, "clockThread");
         clockThread.start();
@@ -96,18 +91,16 @@ public class DigiClock extends JFrame implements Runnable {
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DigiClock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DigiClock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DigiClock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(DigiClock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
-        DigiClock clock = new DigiClock();
-        clock.setVisible(true);
+        // 主线程
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new DigiClock().setVisible(true);
+            }
+        });
     }
 
     // 时钟运作线程
@@ -123,32 +116,6 @@ public class DigiClock extends JFrame implements Runnable {
         }
     }
 
-    // 自定义数字钟主显示 Panel
-    class ClockDrawPanel extends JPanel {
-
-        // 重写 paintComponent 避免闪烁
-        public void paintComponent(Graphics mg) {
-            // 转换为 G2D 方便使用高级设置
-            Graphics2D g2d = (Graphics2D) mg;
-            // 开启字体抗锯齿
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            super.paintComponent(g2d);
-            // 设置线条粗细和字体
-            g2d.setStroke(new BasicStroke(2f));
-            g2d.setFont(clockPanelFont);
-            // 获取当前日期和时间
-            Calendar cal = Calendar.getInstance();
-            // 绘制字符串显示的日期和时间
-            String date = (new SimpleDateFormat("yyyy-MM-dd")).format(cal.getTime());
-            String time = (new SimpleDateFormat("HH:mm:ss")).format(cal.getTime());
-            // 居中绘制字符串
-            FontMetrics dateFm = g2d.getFontMetrics(clockPanelFont);
-            int fontHeight = dateFm.getHeight(); // 字体高度
-            int dateWidth = dateFm.stringWidth(date); // 各字符串宽度
-            int timeWidth = dateFm.stringWidth(time);
-            g2d.drawString(time, xCAxis / 2 - timeWidth / 2, yCAxis + fontHeight / 2);
-        }
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
