@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.*;
 import javax.swing.JOptionPane;
 
@@ -5,12 +6,13 @@ import javax.swing.JOptionPane;
  * 闹钟类，用于生成闹钟提醒，需要线程定时调用<code>check()</code>方法。<br/>
  * 直接生成对话框，无需关心是否到时。<br/>
  * 已添加开关、贪睡模式（固定 10 分钟）。<br/>
- * 暂时还没有音乐功能。<br/>
+ * 音乐功能已添加（版本 0.1.1）。<br/>
  * <strong><big>闹钟弹出的对话框会阻塞负责调用的线程！</big></strong><br/>
  * 
  * @author 8f235831
- * @version 0.1.0
+ * @version 0.1.1
  * @see ClockCheck#check()
+ * @see AlarmMusic
  */
 public class ClockCheck
 {
@@ -45,11 +47,15 @@ public class ClockCheck
 	public void check()
 	{
 		int userResult;
+		AlarmMusic musicThread;
 
 		if (this.checkStatus && (new Date().after(
 			new Date(this.schedule.getTime() + repeatCount * repeatInterval))))
 		{
 			// 响铃。
+			musicThread = new AlarmMusic(
+				new File("神前暁 - ハレ晴レユカイ(こなたの着メロ).wav"));
+			musicThread.start();
 			userResult = JOptionPane.CLOSED_OPTION;
 			while (userResult == JOptionPane.CLOSED_OPTION)
 			{
@@ -76,6 +82,7 @@ public class ClockCheck
 				// 程序应该不会执行到这里的。
 				throw new RuntimeException();
 			}
+			musicThread.close();
 		}
 	}
 
