@@ -1,3 +1,4 @@
+package cc.amzrk2.digiclock;
 import javax.sound.sampled.*;
 import java.io.*;
 

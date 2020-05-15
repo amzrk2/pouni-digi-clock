@@ -5,18 +5,22 @@ For more information, please refer to <https://unlicense.org>
 package cc.amzrk2.digiclock;
 
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class DigiClock extends JFrame implements Runnable {
 
     public ClockDrawPanel clockPanel; // 数字钟主显示 Panel
     public Thread clockThread; // 时钟运作线程
+    public ArrayList<ClockCheck> alarmList; // 存放闹钟的数组
 
     public DigiClock() {
         initComponents(); // 初始化 NetBeans 生成组件
         // 初始化自定义数字钟主显示 Panel
         initClockDrawPanel();
         clockPanel.initClockPanelData();
+        // 初始化闹钟数组
+        alarmList = new ArrayList<>();
         // 启动时钟运作线程
         clockThread = new Thread(this, "clockThread");
         clockThread.start();

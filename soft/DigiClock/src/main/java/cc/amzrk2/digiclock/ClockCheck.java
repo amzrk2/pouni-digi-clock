@@ -1,3 +1,4 @@
+package cc.amzrk2.digiclock;
 import java.io.File;
 import java.util.*;
 import javax.swing.JOptionPane;
