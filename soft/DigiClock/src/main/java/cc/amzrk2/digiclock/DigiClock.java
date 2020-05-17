@@ -23,7 +23,7 @@ public class DigiClock extends JFrame implements Runnable {
         // 初始化闹钟数组
         alarmList = new ArrayList<>();
         //初始化jList1（闹钟显示框）对应的Model，以便添加多个闹钟进行显示
-       defaultListModel1 = new DefaultListModel();
+        defaultListModel1 = new DefaultListModel();
         // 启动时钟运作线程
         clockThread = new Thread(this, "clockThread");
         clockThread.start();
@@ -156,7 +156,7 @@ public class DigiClock extends JFrame implements Runnable {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(240, Short.MAX_VALUE)
+                .addContainerGap(210, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -177,7 +177,7 @@ public class DigiClock extends JFrame implements Runnable {
                                 .addComponent(btnAlarm)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnSetting)))))
-                .addGap(6, 6, 6))
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -193,16 +193,27 @@ public class DigiClock extends JFrame implements Runnable {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // 当点击新建闹钟按钮时，自动创建一个闹钟类的对象。在完成闹钟添加前还需要实现的方法：
-        //生成一个对话框，能够输入设定闹钟的hour、min的信息，并自动获取闹钟按钮的开启与否的信息
-        //之后将生成的闹钟信息显示在UI界面左下的框图中（时间）
-        int Cnum = alarmList.size();
-        String[] time = JOptionPane.showInputDialog(this,"请输入要设定的闹钟时间：(hour:min)","设定闹钟",JOptionPane.PLAIN_MESSAGE).split(":");
-        String Hour = time[0];
-        String Min = time[1];
-        ClockCheck clock = new ClockCheck(Integer.valueOf(Hour),Integer.valueOf(Min),toggleAlarm.isSelected());
-        alarmList.add(clock);
-        defaultListModel1.add(Cnum,Hour+":"+Min);
-        jList1.setModel(defaultListModel1);
+        // 生成一个对话框，能够输入设定闹钟的hour、min的信息，并自动获取闹钟按钮的开启与否的信息
+        // 之后将生成的闹钟信息显示在UI界面左下的框图中（时间）
+        JTextField alarmHourField = new JTextField(4);
+        JTextField alarmMinuteField = new JTextField(4);
+        JPanel alarmPanel = new JPanel();
+        alarmPanel.add(new JLabel("时："));
+        alarmPanel.add(alarmHourField);
+        alarmPanel.add(Box.createHorizontalStrut(15)); // 间隔
+        alarmPanel.add(new JLabel("分："));
+        alarmPanel.add(alarmMinuteField);
+        int result = JOptionPane.showConfirmDialog(this, alarmPanel,
+                "请设定闹钟时间 (24 小时制)", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            String alarmHour = alarmHourField.getText();
+            String alarmMinute = alarmMinuteField.getText();
+            ClockCheck newClock = new ClockCheck(Integer.valueOf(alarmHour), Integer.valueOf(alarmMinute), true);
+            int Cnum = alarmList.size();
+            alarmList.add(newClock);
+            defaultListModel1.add(Cnum, alarmHour + " : " + alarmMinute);
+            jList1.setModel(defaultListModel1);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
