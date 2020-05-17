@@ -221,7 +221,7 @@ public class DigiClock extends JFrame implements Runnable {
         //生成1个对话框，提示要删除的闹钟在闹钟列表中的位置，输入一个数字，然后删除对应的闹钟
         String dele = JOptionPane.showInputDialog(this,"请输入要删除的闹钟在闹钟列表中的位置：","删除闹钟",JOptionPane.PLAIN_MESSAGE);
         alarmList.remove(Integer.valueOf(dele)-1);
-        defaultListModel1.remove(Integer.valueOf(dele));
+        defaultListModel1.remove(Integer.valueOf(dele)-1);
         jList1.setModel(defaultListModel1);
     }//GEN-LAST:event_jButton2ActionPerformed
 
