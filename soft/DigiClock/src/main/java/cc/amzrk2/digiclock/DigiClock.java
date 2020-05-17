@@ -195,24 +195,46 @@ public class DigiClock extends JFrame implements Runnable {
         // 当点击新建闹钟按钮时，自动创建一个闹钟类的对象。在完成闹钟添加前还需要实现的方法：
         // 生成一个对话框，能够输入设定闹钟的hour、min的信息，并自动获取闹钟按钮的开启与否的信息
         // 之后将生成的闹钟信息显示在UI界面左下的框图中（时间）
-        JTextField alarmHourField = new JTextField(4);
-        JTextField alarmMinuteField = new JTextField(4);
-        JPanel alarmPanel = new JPanel();
-        alarmPanel.add(new JLabel("时："));
-        alarmPanel.add(alarmHourField);
-        alarmPanel.add(Box.createHorizontalStrut(15)); // 间隔
-        alarmPanel.add(new JLabel("分："));
-        alarmPanel.add(alarmMinuteField);
-        int result = JOptionPane.showConfirmDialog(this, alarmPanel,
-                "请设定闹钟时间 (24 小时制)", JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION) {
-            String alarmHour = alarmHourField.getText();
-            String alarmMinute = alarmMinuteField.getText();
-            ClockCheck newClock = new ClockCheck(Integer.valueOf(alarmHour), Integer.valueOf(alarmMinute), true);
-            int Cnum = alarmList.size();
-            alarmList.add(newClock);
-            defaultListModel1.add(Cnum, alarmHour + " : " + alarmMinute);
-            jList1.setModel(defaultListModel1);
+        boolean checkStatus = true;
+        // 时间有效值检查
+        while (checkStatus) {
+            // 对话框面板
+            JTextField alarmHourField = new JTextField(4);
+            JTextField alarmMinuteField = new JTextField(4);
+            JPanel alarmPanel = new JPanel();
+            alarmPanel.add(new JLabel("时："));
+            alarmPanel.add(alarmHourField);
+            alarmPanel.add(Box.createHorizontalStrut(15)); // 间隔
+            alarmPanel.add(new JLabel("分："));
+            alarmPanel.add(alarmMinuteField);
+            int result = JOptionPane.showConfirmDialog(this, alarmPanel, "请设定闹钟时间 (24 小时制)", JOptionPane.OK_CANCEL_OPTION);
+            try {
+                // 确认
+                if (result == JOptionPane.OK_OPTION) {
+                    String alarmHour = alarmHourField.getText();
+                    String alarmMinute = alarmMinuteField.getText();
+                    int alarmHourI = Integer.valueOf(alarmHour);
+                    int alarmMinuteI = Integer.valueOf(alarmMinute);
+                    // 时间有效
+                    if (alarmHourI >= 0 && alarmHourI <= 24 && alarmMinuteI >= 0 && alarmMinuteI <= 59) {
+                        ClockCheck newClock = new ClockCheck(Integer.valueOf(alarmHour), Integer.valueOf(alarmMinute), true);
+                        int Cnum = alarmList.size();
+                        alarmList.add(newClock);
+                        defaultListModel1.add(Cnum, alarmHour + " : " + alarmMinute);
+                        jList1.setModel(defaultListModel1);
+                        checkStatus = false;
+                    } // 时间无效
+                    else {
+                        JOptionPane.showMessageDialog(this, "时间输入有误，请检查输入值！", "错误", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                // 取消
+                if (result == JOptionPane.CANCEL_OPTION) {
+                    checkStatus = false;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "时间输入有误，请检查输入值！", "错误", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
