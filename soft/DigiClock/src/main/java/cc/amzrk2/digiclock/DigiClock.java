@@ -12,8 +12,9 @@ public class DigiClock extends JFrame implements Runnable {
 
     public ClockDrawPanel clockPanel; // 数字钟主显示 Panel
     public Thread clockThread; // 时钟运作线程
+
     public ArrayList<ClockCheck> alarmList; // 存放闹钟的数组
-    public DefaultListModel defaultListModel1;
+    public DefaultListModel alarmListModel; // 闹钟显示 ListModel
 
     public DigiClock() {
         initComponents(); // 初始化 NetBeans 生成组件
@@ -22,8 +23,9 @@ public class DigiClock extends JFrame implements Runnable {
         clockPanel.initClockPanelData();
         // 初始化闹钟数组
         alarmList = new ArrayList<>();
-        //初始化jList1（闹钟显示框）对应的Model，以便添加多个闹钟进行显示
-        defaultListModel1 = new DefaultListModel();
+        // 初始化 alarmListModel（闹钟显示框）对应的Model，以便添加多个闹钟进行显示
+        alarmListModel = new DefaultListModel();
+        alarmListPanel.setModel(alarmListModel);
         // 启动时钟运作线程
         clockThread = new Thread(this, "clockThread");
         clockThread.start();
@@ -67,38 +69,39 @@ public class DigiClock extends JFrame implements Runnable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        alarmScrollPane1 = new javax.swing.JScrollPane();
+        alarmListPanel = new javax.swing.JList<>();
+        addAlarm = new javax.swing.JButton();
+        delAlarm = new javax.swing.JButton();
         toggleAlarm = new javax.swing.JToggleButton();
         btnSetting = new javax.swing.JButton();
         btnAlarm = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jSeparator2 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("数字时钟");
         setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         setResizable(false);
 
-        jList1.setFont(getFont());
-        jScrollPane1.setViewportView(jList1);
+        alarmListPanel.setFont(getFont());
+        alarmScrollPane1.setViewportView(alarmListPanel);
 
-        jButton1.setFont(getFont());
-        jButton1.setText("添加闹钟");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addAlarm.setFont(getFont());
+        addAlarm.setText("添加闹钟");
+        addAlarm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addAlarmActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(getFont());
-        jButton2.setText("删除闹钟");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        delAlarm.setFont(getFont());
+        delAlarm.setText("删除闹钟");
+        delAlarm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                delAlarmActionPerformed(evt);
             }
         });
 
@@ -136,47 +139,50 @@ public class DigiClock extends JFrame implements Runnable {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(alarmScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(toggleAlarm, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(toggleAlarm, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(delAlarm, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addAlarm, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(205, 205, 205)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnSetting, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAlarm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(34, 34, 34))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(210, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(toggleAlarm, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnAlarm)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSetting)))))
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAlarm)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSetting))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(alarmScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(toggleAlarm, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(15, 15, 15)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 0, 0)
+                            .addComponent(addAlarm, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(10, 10, 10)
+                            .addComponent(delAlarm, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(30, 30, 30))
         );
 
@@ -191,7 +197,8 @@ public class DigiClock extends JFrame implements Runnable {
         }
     }//GEN-LAST:event_toggleAlarmActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    // 创建闹钟
+    private void addAlarmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlarmActionPerformed
         // 当点击新建闹钟按钮时，自动创建一个闹钟类的对象。在完成闹钟添加前还需要实现的方法：
         // 生成一个对话框，能够输入设定闹钟的hour、min的信息，并自动获取闹钟按钮的开启与否的信息
         // 之后将生成的闹钟信息显示在UI界面左下的框图中（时间）
@@ -217,12 +224,21 @@ public class DigiClock extends JFrame implements Runnable {
                     int alarmMinuteI = Integer.valueOf(alarmMinute);
                     // 时间有效
                     if (alarmHourI >= 0 && alarmHourI <= 24 && alarmMinuteI >= 0 && alarmMinuteI <= 59) {
-                        ClockCheck newClock = new ClockCheck(Integer.valueOf(alarmHour), Integer.valueOf(alarmMinute), true);
-                        int Cnum = alarmList.size();
-                        alarmList.add(newClock);
-                        defaultListModel1.add(Cnum, alarmHour + " : " + alarmMinute);
-                        jList1.setModel(defaultListModel1);
-                        checkStatus = false;
+                        String newAlarm = alarmHour + ":" + alarmMinute;
+                        // 检查闹钟是否已经存在
+                        boolean alarmExist = false;
+                        for (int i = 0; i < alarmListModel.getSize(); i++) {
+                            if (newAlarm.equals(alarmListModel.get(i))) {
+                                alarmExist = true;
+                                JOptionPane.showMessageDialog(this, "闹钟已存在。", "提示", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                        if (!alarmExist) {
+                            ClockCheck newClock = new ClockCheck(Integer.valueOf(alarmHour), Integer.valueOf(alarmMinute), true);
+                            alarmList.add(newClock);
+                            alarmListModel.add(alarmList.size() - 1, newAlarm);
+                            checkStatus = false;
+                        }
                     } // 时间无效
                     else {
                         JOptionPane.showMessageDialog(this, "时间输入有误，请检查输入值！", "错误", JOptionPane.ERROR_MESSAGE);
@@ -235,16 +251,16 @@ public class DigiClock extends JFrame implements Runnable {
                 JOptionPane.showMessageDialog(this, "时间输入有误，请检查输入值！", "错误", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_addAlarmActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void delAlarmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delAlarmActionPerformed
         // 此处实现闹钟的删除操作，就是从闹钟数组中删除
         //生成1个对话框，提示要删除的闹钟在闹钟列表中的位置，输入一个数字，然后删除对应的闹钟
         String dele = JOptionPane.showInputDialog(this, "请输入要删除的闹钟在闹钟列表中的位置：", "删除闹钟", JOptionPane.PLAIN_MESSAGE);
         alarmList.remove(Integer.valueOf(dele) - 1);
-        defaultListModel1.remove(Integer.valueOf(dele) - 1);
-        jList1.setModel(defaultListModel1);
-    }//GEN-LAST:event_jButton2ActionPerformed
+        alarmListModel.remove(Integer.valueOf(dele) - 1);
+        alarmListPanel.setModel(alarmListModel);
+    }//GEN-LAST:event_delAlarmActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
@@ -283,15 +299,16 @@ public class DigiClock extends JFrame implements Runnable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addAlarm;
+    private javax.swing.JList<String> alarmListPanel;
+    private javax.swing.JScrollPane alarmScrollPane1;
     private javax.swing.JButton btnAlarm;
     private javax.swing.JButton btnSetting;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton delAlarm;
     private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JToggleButton toggleAlarm;
     // End of variables declaration//GEN-END:variables
 }
