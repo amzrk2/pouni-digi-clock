@@ -12,6 +12,7 @@ public class DigiClock extends JFrame implements Runnable {
 
     public ClockDrawPanel clockPanel; // 数字钟主显示 Panel
     public Thread clockThread; // 时钟运作线程
+    public Thread alarmThread; // 监视闹钟线程
 
     public ArrayList<ClockCheck> alarmList; // 存放闹钟的数组
     public DefaultListModel alarmListModel; // 闹钟显示 ListModel
@@ -21,6 +22,9 @@ public class DigiClock extends JFrame implements Runnable {
         // 初始化自定义数字钟主显示 Panel
         initClockDrawPanel();
         clockPanel.initClockPanelData();
+        // 默认开启闹钟
+        toggleAlarm.setSelected(true);
+        toggleAlarm.setText("闹钟 / 开");
         // 初始化闹钟数组
         alarmList = new ArrayList<>();
         // 初始化 alarmListModel（闹钟显示框）对应的Model，以便添加多个闹钟进行显示
@@ -29,13 +33,9 @@ public class DigiClock extends JFrame implements Runnable {
         // 启动时钟运作线程
         clockThread = new Thread(this, "clockThread");
         clockThread.start();
-        //修改对话框样式为Windows样式
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                | UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
+        // 启动监视闹钟线程
+        alarmThread = new Thread(new AlarmChecker(alarmList), "alarmThread");
+        alarmThread.start();
     }
 
     // 初始化自定义数字钟主显示 Panel
@@ -253,6 +253,7 @@ public class DigiClock extends JFrame implements Runnable {
         }
     }//GEN-LAST:event_addAlarmActionPerformed
 
+    // 删除闹钟
     private void delAlarmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delAlarmActionPerformed
         // 此处实现闹钟的删除操作，就是从闹钟数组中删除
         //生成1个对话框，提示要删除的闹钟在闹钟列表中的位置，输入一个数字，然后删除对应的闹钟
@@ -284,9 +285,10 @@ public class DigiClock extends JFrame implements Runnable {
 
     public static void main(String args[]) {
         try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DigiClock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
         }
         // 主线程
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -300,12 +302,13 @@ public class DigiClock extends JFrame implements Runnable {
     // 时钟运作线程
     @Override
     public void run() {
-        Thread thisThread = Thread.currentThread();
-        while (clockThread == thisThread) {
+        while (true) {
             clockPanel.repaint();
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
     }
