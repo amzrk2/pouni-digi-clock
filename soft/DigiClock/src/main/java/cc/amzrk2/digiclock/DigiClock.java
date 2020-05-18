@@ -256,10 +256,22 @@ public class DigiClock extends JFrame implements Runnable {
     private void delAlarmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delAlarmActionPerformed
         // 此处实现闹钟的删除操作，就是从闹钟数组中删除
         //生成1个对话框，提示要删除的闹钟在闹钟列表中的位置，输入一个数字，然后删除对应的闹钟
-        String dele = JOptionPane.showInputDialog(this, "请输入要删除的闹钟在闹钟列表中的位置：", "删除闹钟", JOptionPane.PLAIN_MESSAGE);
-        alarmList.remove(Integer.valueOf(dele) - 1);
-        alarmListModel.remove(Integer.valueOf(dele) - 1);
-        alarmListPanel.setModel(alarmListModel);
+        // 获取当前选中的闹钟
+        try {
+            int index = 0;
+            String selectedAlarm = alarmListPanel.getSelectedValue();
+            for (index = 0; index < alarmListModel.getSize(); index++) {
+                if (selectedAlarm.equals(alarmListModel.get(index))) {
+                    break;
+                }
+            }
+            // 删除当前选中的闹钟
+            alarmList.remove(index);
+            alarmListModel.remove(index);
+        } // 啥也没选
+        catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "请先选中欲删除的闹钟。", "提示", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_delAlarmActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
