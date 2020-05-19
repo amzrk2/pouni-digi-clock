@@ -41,8 +41,8 @@ public class ClockCheck
 
 	/**
 	 * 检测方法，请确保能有个线程定期调用这个方法来确认闹钟是否到时，间隔 1
-	 * 秒左右即可。</br>
-	 * <strong><big>闹钟弹出的对话框会阻塞负责调用的线程！</big></strong></br>
+	 * 秒左右即可。<br>
+	 * <strong><big>闹钟弹出的对话框会阻塞负责调用的线程！</big></strong><br>
 	 * 如果不希望线程被阻塞请另外申请专门的线程来调用这个方法。
 	 */
 	public void check()
