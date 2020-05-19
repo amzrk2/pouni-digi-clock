@@ -242,7 +242,7 @@ public class DigiClock extends JFrame implements Runnable {
             alarmList.remove(index);
             alarmListModel.remove(index);
         } // 啥也没选
-        catch (NullPointerException e) {
+        catch (Exception e) {
             JOptionPane.showMessageDialog(this, "请先选中欲删除的闹钟。", "提示", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_delAlarmActionPerformed
