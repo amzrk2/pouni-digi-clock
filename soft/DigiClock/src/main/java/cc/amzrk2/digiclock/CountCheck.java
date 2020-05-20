@@ -1,3 +1,4 @@
+package cc.amzrk2.digiclock;
 import javax.swing.*;
 import java.io.File;
 import java.util.Calendar;
@@ -26,9 +27,9 @@ public class CountCheck implements Comparable<CountCheck>
 		AlarmMusic musicThread;
 
 		// 更新窗口。
-		var calendar = Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(this.schedule);
-		var i = (this.schedule - System.currentTimeMillis());
+		long i = (this.schedule - System.currentTimeMillis());
 		this.countPanel.content_1.setText("倒计时将于" + ((i / 3600000) + " : " + ((i % 3600000) / 60000) + " : " +
 		                                             (((i / 1000 % 3600) % 60))) + "后结束。");
 		this.countPanel.content_2.setText("倒计时的结束时间为" + calendar.getTime().toString() + "。");

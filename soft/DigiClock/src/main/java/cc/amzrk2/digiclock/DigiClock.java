@@ -16,6 +16,8 @@ public class DigiClock extends JFrame implements Runnable {
 
     public ArrayList<ClockCheck> alarmList; // 存放闹钟的数组
     public DefaultListModel alarmListModel; // 闹钟显示 ListModel
+    public TimeManager timeManager;               // 创建时间管理大师timeManager
+    public ClockPanel cp;                        //名字与上面的主显示重名，此处用简写表示
 
     public DigiClock() {
         initComponents(); // 初始化 NetBeans 生成组件
@@ -207,7 +209,7 @@ public class DigiClock extends JFrame implements Runnable {
                             }
                         }
                         if (!alarmExist) {
-                            ClockCheck newClock = new ClockCheck(Integer.valueOf(alarmHour), Integer.valueOf(alarmMinute), true);
+                            ClockCheck newClock = new ClockCheck(Integer.valueOf(alarmHour), Integer.valueOf(alarmMinute), true,cp);
                             alarmList.add(newClock);
                             alarmListModel.add(alarmList.size() - 1, newAlarm);
                             checkStatus = false;

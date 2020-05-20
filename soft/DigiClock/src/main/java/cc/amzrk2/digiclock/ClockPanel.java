@@ -1,3 +1,4 @@
+package cc.amzrk2.digiclock;
 import javax.swing.*;
 import java.awt.*;
 

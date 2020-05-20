@@ -1,3 +1,4 @@
+package cc.amzrk2.digiclock;
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
@@ -134,8 +135,8 @@ public class TimeManagerPanel extends JPanel
 			constraints.gridx = 0;
 
 			this.clockRootPane.removeAll();
-			var i = 0;
-			for (var item : this.clockList)
+			int i = 0;
+			for (ClockPanel item : this.clockList)
 			{
 				constraints.gridy = i;
 				layout.setConstraints(item, constraints);
@@ -166,8 +167,8 @@ public class TimeManagerPanel extends JPanel
 			constraints.gridx = 0;
 
 			this.countRootPane.removeAll();
-			var i = 0;
-			for (var item : this.countList)
+			int i = 0;
+			for (CountPanel item : this.countList)
 			{
 				constraints.gridy = i;
 				layout.setConstraints(item, constraints);

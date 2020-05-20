@@ -1,3 +1,4 @@
+package cc.amzrk2.digiclock;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -13,11 +14,11 @@ public class TimeManager extends Thread
 
 	private synchronized void refresh()
 	{
-		for (var item : this.clockList)
+		for (ClockCheck item : this.clockList)
 		{
 			item.check();
 		}
-		for (var item : this.countList)
+		for (CountCheck item : this.countList)
 		{
 			if (item.check())
 			{
@@ -30,13 +31,13 @@ public class TimeManager extends Thread
 
 	private synchronized void removeClockAndCount()
 	{
-		for (var item : this.removeClockList)
+		for (ClockCheck item : this.removeClockList)
 		{
 			this.clockList.remove(item);
 			this.panel.clockList.remove(ClockPanel.getInstanceCompare(item.hashCode()));
 		}
 		this.panel.repaintClockPane();
-		for (var item : this.removeCountList)
+		for (CountCheck item : this.removeCountList)
 		{
 			this.countList.remove(item);
 			this.panel.clockList.remove(ClockPanel.getInstanceCompare(item.hashCode()));
@@ -48,7 +49,7 @@ public class TimeManager extends Thread
 
 	public synchronized void removeClock(int hashCode)
 	{
-		for (var item : this.clockList)
+		for (ClockCheck item : this.clockList)
 		{
 			if (item.hashCode() == hashCode)
 			{
@@ -59,7 +60,7 @@ public class TimeManager extends Thread
 
 	public synchronized void removeCount(int hashCode)
 	{
-		for (var item : this.countList)
+		for (CountCheck item : this.countList)
 		{
 			if (item.hashCode() == hashCode)
 			{
@@ -70,8 +71,8 @@ public class TimeManager extends Thread
 
 	public synchronized void addClock(int hour, int min)
 	{
-		var clockPanel = new ClockPanel(this);
-		var clockCheck = new ClockCheck(hour, min, true, clockPanel);
+		ClockPanel clockPanel = new ClockPanel(this);
+		ClockCheck clockCheck = new ClockCheck(hour, min, true, clockPanel);
 		clockPanel.setHashCode(clockCheck.hashCode());
 		this.clockList.add(clockCheck);
 		this.panel.clockList.add(clockPanel);
@@ -79,8 +80,8 @@ public class TimeManager extends Thread
 
 	public synchronized void addCount(long schedule)
 	{
-		var countPanel = new CountPanel(this);
-		var countCheck = new CountCheck(schedule, countPanel);
+		CountPanel countPanel = new CountPanel(this);
+		CountCheck countCheck = new CountCheck(schedule, countPanel);
 		countPanel.setHashCode(countCheck.hashCode());
 		this.countList.add(countCheck);
 		this.panel.countList.add(countPanel);
@@ -88,7 +89,7 @@ public class TimeManager extends Thread
 
 	public synchronized boolean containsClock(int hashCode)
 	{
-		for (var i : this.clockList)
+		for (ClockCheck i : this.clockList)
 		{
 			if (i.hashCode() == hashCode)
 			{
@@ -100,7 +101,7 @@ public class TimeManager extends Thread
 
 	public synchronized boolean containsCount(int hashCode)
 	{
-		for (var i : this.countList)
+		for (CountCheck i : this.countList)
 		{
 			if (i.hashCode() == hashCode)
 			{

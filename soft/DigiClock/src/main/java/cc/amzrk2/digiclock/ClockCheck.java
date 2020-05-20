@@ -1,3 +1,4 @@
+package cc.amzrk2.digiclock;
 import java.io.File;
 import java.util.*;
 import javax.swing.JOptionPane;
@@ -53,8 +54,8 @@ public class ClockCheck implements Comparable<ClockCheck>
 		AlarmMusic musicThread;
 
 		// 更新窗口。
-		var calendar = Calendar.getInstance();
-		var i = (this.getNextRing() - System.currentTimeMillis());
+		Calendar calendar = Calendar.getInstance();
+		long i = (this.getNextRing() - System.currentTimeMillis());
 		calendar.setTimeInMillis(this.schedule);
 		this.setCheckStatus(this.clockPanel.enableCheckBox.isSelected());
 
@@ -206,7 +207,7 @@ public class ClockCheck implements Comparable<ClockCheck>
 			result.set(Calendar.MINUTE, min);
 			result.set(Calendar.SECOND, 0);
 			result.set(Calendar.MILLISECOND, 0);
-			var millis = result.getTimeInMillis();
+			long millis = result.getTimeInMillis();
 			return (millis > System.currentTimeMillis() + 1000) ? millis : millis + dayInterval;
 		}
 		catch (RuntimeException e)
@@ -219,7 +220,7 @@ public class ClockCheck implements Comparable<ClockCheck>
 
 	private static long quickSchedule(long outdatedSchedule)
 	{
-		var calendar = Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(outdatedSchedule);
 		return quickSchedule(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 	}
@@ -233,7 +234,7 @@ public class ClockCheck implements Comparable<ClockCheck>
 	@Override
 	public int hashCode()
 	{
-		var calendar = Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(this.schedule);
 		return ((calendar.get(Calendar.HOUR_OF_DAY) << 8) + calendar.get(Calendar.MINUTE));
 	}
