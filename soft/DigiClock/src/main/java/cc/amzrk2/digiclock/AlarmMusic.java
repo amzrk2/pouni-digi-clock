@@ -1,6 +1,6 @@
-package cc.amzrk2.digiclock;
 import javax.sound.sampled.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 // 资料来源：
 // https://m.jb51.net/article/48678.htm
@@ -22,8 +22,8 @@ public class AlarmMusic extends Thread
 
 	/**
 	 * 构造方法。<br/>
-	 * <strong><big>没有对指定的文件进行格式检查！且文件错误不会抛出异常，也不会播放任何声音！</big></strong><br/>
-	 * 建议在用户选择文件时，强制要求用户测试文件是否能够播放。
+	 * <strong><big>不会对指定的文件进行格式检查！且文件错误不会抛出异常，也不会播放任何声音！</big></strong><br/>
+	 * 修改音频文件时，应当测试文件是否能够播放。
 	 * 
 	 * @param musicFile 指定的音乐文件。
 	 */
