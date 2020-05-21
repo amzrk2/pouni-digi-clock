@@ -31,6 +31,10 @@ public class CountPanel extends JPanel
 		this.content_2 = new JLabel("content2");
 		this.deleteButton = new JButton("删除");
 
+                this.content_1.setFont(DigiClock.fontSm);
+                this.content_2.setFont(DigiClock.fontSm);
+                this.deleteButton.setFont(DigiClock.fontSm);
+
 		this.deleteButton.addActionListener(
 				event -> timeManager.removeCount(this.hashCode)
 		);
@@ -69,7 +73,7 @@ public class CountPanel extends JPanel
 	public Dimension getPreferredSize()
 	{
 		// 强制大小。
-		return new Dimension(260, 70);
+		return new Dimension(180, 70);
 	}
 
 	public static CountPanel getInstanceCompare(int hashCode)

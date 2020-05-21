@@ -1,6 +1,7 @@
 package cc.amzrk2.digiclock;
 import javax.swing.*;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class CountCheck implements Comparable<CountCheck>
@@ -32,7 +33,7 @@ public class CountCheck implements Comparable<CountCheck>
 		long i = (this.schedule - System.currentTimeMillis());
 		this.countPanel.content_1.setText("倒计时 " + ((i / 3600000) + " : " + ((i % 3600000) / 60000) + " : " +
 		                                             (((i / 1000 % 3600) % 60))));
-		this.countPanel.content_2.setText("目标时间 " + calendar.getTime().toString());
+		this.countPanel.content_2.setText("目标时间 " + (new SimpleDateFormat("HH:mm:ss")).format(calendar.getTime()));
 
 		// 检查状态。
 		if (!this.outdated)
