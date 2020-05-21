@@ -1,27 +1,47 @@
 package cc.amzrk2.digiclock;
-import javax.swing.*;
-import java.awt.*;
+
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.LinkedList;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 // 资料：https://blog.csdn.net/qq_34908844/article/details/80054703
 
+/**
+ * 时间管理总组件。继承自<code>javax.swing.JPanel</code>类。<br/>
+ * 包含了闹钟组件和倒计时组件。
+ *
+ * @author 8f235831
+ * @see TimeManager
+ */
 public class TimeManagerPanel extends JPanel
 {
-	private TimeManager timeManager;
-	public LinkedList<ClockPanel> clockList;
-	public LinkedList<CountPanel> countList;
-	public LinkedList<ClockPanel> lastClockList = null;
-	public LinkedList<CountPanel> lastCountList = null;
+	private TimeManager timeManager;// 管理线程类。
+	public LinkedList<ClockPanel> clockList;// 闹钟组件。
+	public LinkedList<CountPanel> countList;// 倒计时组件。
+	public LinkedList<ClockPanel> lastClockList = null;// 闹钟组件备份。
+	public LinkedList<CountPanel> lastCountList = null;// 倒计时组件备份。
 
 	// public JCheckBox enableClockCheckBox;
 	// public JCheckBox enableCountCheckBox;
-	public JButton addClockButton;
-	public JButton addCountButton;
-	public JPanel clockRootPane;
-	public JPanel countRootPane;
-	public JScrollPane clockScrollPane;
-	public JScrollPane countScrollPane;
+	public JButton addClockButton;// 闹钟添加按钮。
+	public JButton addCountButton;// 倒计时添加按钮。
+	public JPanel clockRootPane;// 闹钟根组件。
+	public JPanel countRootPane;// 倒计时根组件。
+	public JScrollPane clockScrollPane;// 闹钟滚轴组件。
+	public JScrollPane countScrollPane;// 倒计时滚轴组件。
 
+	/**
+	 * 构造方法。<br/>
+	 * <strong><big>仅供<code>TimeManager</code>类创建！</big></strong>
+	 *
+	 * @param timeManager 管理线程类。
+	 */
 	public TimeManagerPanel(TimeManager timeManager)
 	{
 		super();
@@ -42,13 +62,13 @@ public class TimeManagerPanel extends JPanel
 		// this.enableClockCheckBox = new JCheckBox("全局闹钟开关已关闭");
 		// this.enableCountCheckBox = new JCheckBox("全局倒计时开关已关闭");
 		this.addClockButton = new JButton("新建闹钟");
-                this.addClockButton.setFont(DigiClock.fontLg);
+		this.addClockButton.setFont(DigiClock.fontLg);
 		this.addCountButton = new JButton("新建倒计时");
-                this.addCountButton.setFont(DigiClock.fontLg);
+		this.addCountButton.setFont(DigiClock.fontLg);
 		this.clockRootPane = new JPanel(new FlowLayout());
-                this.clockRootPane.setFont(DigiClock.fontSm);
+		this.clockRootPane.setFont(DigiClock.fontSm);
 		this.countRootPane = new JPanel(new FlowLayout());
-                this.countRootPane.setFont(DigiClock.fontSm);
+		this.countRootPane.setFont(DigiClock.fontSm);
 		this.clockRootPane.setSize(200, 800);
 		this.countRootPane.setSize(200, 800);
 		this.clockScrollPane = new JScrollPane(this.clockRootPane, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
@@ -123,6 +143,9 @@ public class TimeManagerPanel extends JPanel
 		this.add(this.countScrollPane);
 	}
 
+	/**
+	 * 重绘闹钟组件排版。
+	 */
 	public synchronized void repaintClockPane()
 	{
 		GridBagLayout layout;
@@ -154,6 +177,9 @@ public class TimeManagerPanel extends JPanel
 
 	}
 
+	/**
+	 * 重绘倒计时组件排版。
+	 */
 	public synchronized void repaintCountPane()
 	{
 		GridBagLayout layout;
