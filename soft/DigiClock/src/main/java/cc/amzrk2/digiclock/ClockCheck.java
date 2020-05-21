@@ -61,8 +61,8 @@ public class ClockCheck implements Comparable<ClockCheck>
 
 		this.clockPanel.content_1.setText(calendar.get(Calendar.HOUR_OF_DAY) + " : " + calendar.get(Calendar.MINUTE));
 		this.clockPanel.content_2.setText(
-				(this.checkStatus) ? ("下次响铃时间为" + (i / 3600000) + " : " + ((i % 3600000) / 60000) + " : " +
-				                      (((i / 1000 % 3600) % 60)) + "后。") : ("当前闹钟已关闭。"));
+				(this.checkStatus) ? ("距下次响铃 " + (i / 3600000) + " : " + ((i % 3600000) / 60000) + " : " +
+				                      (((i / 1000 % 3600) % 60))) : ("闹钟已关闭"));
 
 		// 检查状态。
 		if ((System.currentTimeMillis() >

@@ -30,13 +30,18 @@ public class ClockPanel extends JPanel implements Comparable<ClockPanel>
 		this.deleteButton = new JButton("删除");
 		this.enableCheckBox = new JCheckBox("启动", true);
 
+                this.content_1.setFont(DigiClock.fontSm);
+                this.content_2.setFont(DigiClock.fontSm);
+                this.deleteButton.setFont(DigiClock.fontSm);
+                this.enableCheckBox.setFont(DigiClock.fontSm);
+
 		this.deleteButton.addActionListener(
 				event -> timeManager.removeClock(this.hashCode)
 		);
 
 		// content_1
 		constraints.gridheight = 1;
-		constraints.gridwidth = 2;
+		constraints.gridwidth = 1;
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		layout.setConstraints(this.content_1, constraints);
@@ -50,7 +55,7 @@ public class ClockPanel extends JPanel implements Comparable<ClockPanel>
 		this.add(this.deleteButton);
 		// content_2
 		constraints.gridheight = 1;
-		constraints.gridwidth = 2;
+		constraints.gridwidth = 3;
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		layout.setConstraints(this.content_2, constraints);
@@ -58,8 +63,8 @@ public class ClockPanel extends JPanel implements Comparable<ClockPanel>
 		// enableCheckBox
 		constraints.gridheight = 1;
 		constraints.gridwidth = 1;
-		constraints.gridx = 2;
-		constraints.gridy = 1;
+		constraints.gridx = 1;
+		constraints.gridy = 0;
 		layout.setConstraints(this.enableCheckBox, constraints);
 		this.add(this.enableCheckBox);
 
@@ -75,7 +80,7 @@ public class ClockPanel extends JPanel implements Comparable<ClockPanel>
 	public Dimension getPreferredSize()
 	{
 		// 强制大小。
-		return new Dimension(260, 70);
+		return new Dimension(180, 70);
 	}
 
 	@Override

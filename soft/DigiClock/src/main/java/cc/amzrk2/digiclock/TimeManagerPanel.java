@@ -29,7 +29,7 @@ public class TimeManagerPanel extends JPanel
 		GridBagLayout layout;
 		GridBagConstraints constraints;
 
-		this.setSize(600, 500);
+		this.setSize(400, 500);
 		layout = new GridBagLayout();
 		constraints = new GridBagConstraints();
 		this.setLayout(layout);
@@ -42,29 +42,33 @@ public class TimeManagerPanel extends JPanel
 		// this.enableClockCheckBox = new JCheckBox("全局闹钟开关已关闭");
 		// this.enableCountCheckBox = new JCheckBox("全局倒计时开关已关闭");
 		this.addClockButton = new JButton("新建闹钟");
+                this.addClockButton.setFont(DigiClock.fontLg);
 		this.addCountButton = new JButton("新建倒计时");
+                this.addCountButton.setFont(DigiClock.fontLg);
 		this.clockRootPane = new JPanel(new FlowLayout());
+                this.clockRootPane.setFont(DigiClock.fontSm);
 		this.countRootPane = new JPanel(new FlowLayout());
-		this.clockRootPane.setSize(300, 800);
-		this.countRootPane.setSize(300, 800);
+                this.countRootPane.setFont(DigiClock.fontSm);
+		this.clockRootPane.setSize(200, 800);
+		this.countRootPane.setSize(200, 800);
 		this.clockScrollPane = new JScrollPane(this.clockRootPane, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS)
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER)
 		{
 			@Override
 			public Dimension getPreferredSize()
 			{
 				// 强制大小。
-				return new Dimension(300, 350);
+				return new Dimension(200, 350);
 			}
 		};
 		this.countScrollPane = new JScrollPane(this.countRootPane, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS)
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER)
 		{
 			@Override
 			public Dimension getPreferredSize()
 			{
 				// 强制大小。
-				return new Dimension(300, 350);
+				return new Dimension(200, 350);
 			}
 		};
 

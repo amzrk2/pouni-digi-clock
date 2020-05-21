@@ -12,6 +12,8 @@ public class DigiClock extends JFrame implements Runnable {
     public ClockDrawPanel clockPanel; // 数字钟主显示 Panel
     public TimeManagerPanel tmPanel; // 闹钟模块 Panel
     public Thread clockThread; // 时钟运作线程
+    public static final Font fontLg = new java.awt.Font("SansSerif", 0, 16);
+    public static final Font fontSm = new java.awt.Font("SansSerif", 0, 14);
 
     public DigiClock() {
         initComponents(); // 初始化 NetBeans 生成组件
