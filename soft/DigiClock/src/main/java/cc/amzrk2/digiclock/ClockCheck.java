@@ -1,4 +1,5 @@
 package cc.amzrk2.digiclock;
+
 import java.io.File;
 import java.util.*;
 import javax.swing.JOptionPane;
@@ -20,12 +21,11 @@ import javax.swing.JOptionPane;
 public class ClockCheck implements Comparable<ClockCheck>
 {
 	private long schedule;
-	private boolean checkStatus;
+	private boolean checkStatus;// 开启的状态。
 	private static final long dayInterval = 86400000;// 1 天 = 24 * 3600 * 1000 。
-	private static long repeatInterval = 600000;// 10 分钟。
-	private int repeatCount = 0;
-
-	public ClockPanel clockPanel;
+	private static long repeatInterval = 600000;// 贪睡的间隔， 10 分钟。
+	private int repeatCount = 0;// 贪睡的次数。
+	public ClockPanel clockPanel;// 对应的窗口组件。
 
 	/**
 	 * 构造函数。
@@ -33,6 +33,7 @@ public class ClockCheck implements Comparable<ClockCheck>
 	 * @param hour        设定闹钟的小时，24 小时制。
 	 * @param min         设定闹钟的分钟。
 	 * @param checkStatus 闹钟开关。<code>true</code>为开，<code>false</code>为关。
+	 * @param panel       对应的窗口组件。
 	 * @throws IllegalArgumentException 时间格式错误时可能会抛出此异常。
 	 */
 	public ClockCheck(int hour, int min, boolean checkStatus, ClockPanel panel)
@@ -47,6 +48,8 @@ public class ClockCheck implements Comparable<ClockCheck>
 	 * 秒左右即可。</br>
 	 * <strong><big>闹钟弹出的对话框会阻塞负责调用的线程！</big></strong></br>
 	 * 如果不希望线程被阻塞请另外申请专门的线程来调用这个方法。
+	 *
+	 * @return 返回是否响铃。
 	 */
 	public boolean check()
 	{
@@ -105,24 +108,12 @@ public class ClockCheck implements Comparable<ClockCheck>
 			}
 			else
 			{
-				// 更新内部时间。
+				// 闹钟到时，但没有开启，需要更新内部时间。
 				this.schedule = this.schedule + dayInterval;
 				this.repeatCount = 0;
 			}
 		}
 		return false;
-
-	}
-
-	/**
-	 * @return 获取下一次闹钟的时间。不考虑当前的贪睡状态。
-	 * @see #getNextSchedule
-	 * @see #getNextRing()
-	 * @deprecated 0.2.0 请使用getNextSchedule()方法
-	 */
-	public Date getSchedule()
-	{
-		return new Date(this.schedule);
 	}
 
 	/**
@@ -218,19 +209,32 @@ public class ClockCheck implements Comparable<ClockCheck>
 		}
 	}
 
-	private static long quickSchedule(long outdatedSchedule)
-	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(outdatedSchedule);
-		return quickSchedule(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-	}
+	/*
+		private static long quickSchedule(long outdatedSchedule)
+		{
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeInMillis(outdatedSchedule);
+			return quickSchedule(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+		}
+	*/
 
+	/**
+	 * 比较方法，根据基本的闹钟时间比较，不考虑贪睡的状态。
+	 *
+	 * @return 这个闹钟预计响铃时间较早，返回<code> 1 </code>；这个闹钟预计响铃时间较晚，返回<code> -1 </code>；
+	 * 预计同时响铃，返回<code> 0 <code/>。
+	 */
 	@Override
 	public int compareTo(ClockCheck anotherObject)
 	{
 		return Long.compare(this.schedule, anotherObject.schedule);
 	}
 
+	/**
+	 * 哈希函数，根据设定的时间生成。
+	 *
+	 * @return 一个由闹钟的“时”和“分”移位相加获得的正整数。可以与“时”和“分”快速转化。
+	 */
 	@Override
 	public int hashCode()
 	{
@@ -239,6 +243,9 @@ public class ClockCheck implements Comparable<ClockCheck>
 		return ((calendar.get(Calendar.HOUR_OF_DAY) << 8) + calendar.get(Calendar.MINUTE));
 	}
 
+	/**
+	 * 检查两个闹钟是否相等。
+	 */
 	@Override
 	public boolean equals(Object obj)
 	{
