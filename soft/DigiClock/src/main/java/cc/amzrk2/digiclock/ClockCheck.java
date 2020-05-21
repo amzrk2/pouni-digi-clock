@@ -6,18 +6,11 @@ import javax.swing.JOptionPane;
 
 /**
  * 闹钟类，用于生成闹钟提醒，需要线程定时调用<code>check()</code>方法。<br/>
- * 直接生成对话框，无需关心是否到时。<br/>
- * 已添加开关、贪睡模式（固定 10 分钟）。<br/>
- * 音乐功能已添加（版本 0.1.1）。<br/>
- * <strong><big>闹钟弹出的对话框会阻塞负责调用的线程！</big></strong><br/>
- * 修改几个小问题，并调整方法以便于更高级的类调用。（版本 0.2.0）
  *
  * @author 8f235831
  * @version 0.2.0
  * @see ClockCheck#check()
- * @see AlarmMusic
  */
-
 public class ClockCheck implements Comparable<ClockCheck>
 {
 	private long schedule;
@@ -44,10 +37,8 @@ public class ClockCheck implements Comparable<ClockCheck>
 	}
 
 	/**
-	 * 检测方法，请确保能有个线程定期调用这个方法来确认闹钟是否到时，间隔 1
-	 * 秒左右即可。</br>
-	 * <strong><big>闹钟弹出的对话框会阻塞负责调用的线程！</big></strong></br>
-	 * 如果不希望线程被阻塞请另外申请专门的线程来调用这个方法。
+	 * 检测方法，需要另外的线程定期调用这个方法来确认闹钟是否到时。<br/>
+	 * <strong><big>闹钟弹出的对话框会阻塞负责调用的线程！</big></strong>
 	 *
 	 * @return 返回是否响铃。
 	 */
@@ -222,7 +213,7 @@ public class ClockCheck implements Comparable<ClockCheck>
 	 * 比较方法，根据基本的闹钟时间比较，不考虑贪睡的状态。
 	 *
 	 * @return 这个闹钟预计响铃时间较早，返回<code> 1 </code>；这个闹钟预计响铃时间较晚，返回<code> -1 </code>；
-	 * 预计同时响铃，返回<code> 0 <code/>。
+	 * 预计同时响铃，返回<code> 0 </code>。
 	 */
 	@Override
 	public int compareTo(ClockCheck anotherObject)
