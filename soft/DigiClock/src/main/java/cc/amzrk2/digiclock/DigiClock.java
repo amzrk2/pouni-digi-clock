@@ -56,10 +56,10 @@ public class DigiClock extends JFrame implements Runnable {
         // mainFrame 的 layout 已于 initComponents() 中修改过，这里获取并修改
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        // 左 固定30px 右 至少 800-30(左空)-600(闹钟模块)
+        // 左 固定30px 右 至少 800-30(左空)-400(闹钟模块)
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30).addComponent(tmPanel).addContainerGap(800 - 30 - 600, Short.MAX_VALUE))
+                        .addGap(30, 30, 30).addComponent(tmPanel).addContainerGap(800 - 30 - 400, Short.MAX_VALUE))
         );
         // 上 至少150+60px (主显) 下 固定30px
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -79,6 +79,10 @@ public class DigiClock extends JFrame implements Runnable {
     private void initComponents() {
 
         wtComboBox = new javax.swing.JComboBox<>();
+        exitButton = new javax.swing.JButton();
+        aboutButton = new javax.swing.JButton();
+        worldClockPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("数字时钟");
@@ -88,25 +92,72 @@ public class DigiClock extends JFrame implements Runnable {
         wtComboBox.setFont(getFont());
         wtComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Europe/Paris", "Asia/Shanghai", "Item 3", "Item 4" }));
 
+        exitButton.setFont(getFont());
+        exitButton.setText("退出");
+
+        aboutButton.setFont(getFont());
+        aboutButton.setText("关于");
+        aboutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutButtonActionPerformed(evt);
+            }
+        });
+
+        worldClockPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        jLabel1.setText("世界时钟预留");
+
+        javax.swing.GroupLayout worldClockPanelLayout = new javax.swing.GroupLayout(worldClockPanel);
+        worldClockPanel.setLayout(worldClockPanelLayout);
+        worldClockPanelLayout.setHorizontalGroup(
+            worldClockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(worldClockPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        worldClockPanelLayout.setVerticalGroup(
+            worldClockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(worldClockPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(501, Short.MAX_VALUE)
-                .addComponent(wtComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75))
+                .addContainerGap(460, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(wtComboBox, 0, 310, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(aboutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                        .addComponent(exitButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(worldClockPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(185, 185, 185)
+                .addGap(210, 210, 210)
                 .addComponent(wtComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(396, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(worldClockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addComponent(aboutButton)
+                .addGap(15, 15, 15)
+                .addComponent(exitButton)
+                .addGap(30, 30, 30))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void aboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_aboutButtonActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -139,6 +190,10 @@ public class DigiClock extends JFrame implements Runnable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton aboutButton;
+    private javax.swing.JButton exitButton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel worldClockPanel;
     private javax.swing.JComboBox<String> wtComboBox;
     // End of variables declaration//GEN-END:variables
 }
