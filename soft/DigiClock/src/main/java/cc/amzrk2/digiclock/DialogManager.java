@@ -1,14 +1,28 @@
 package cc.amzrk2.digiclock;
+
 import java.awt.*;
 import javax.swing.*;
 
-
 /**
+ * 对话框生成器，用于设置闹钟、设置倒计时。
+ *
  * @author li-xuan, 8f235831
  * @version 0.1.0
  */
 public class DialogManager
 {
+	/**
+	 * 禁止构造此类实例。
+	 */
+	private DialogManager(){}
+
+	/**
+	 * 显示用于设置闹钟的对话框。<br/>
+	 * 该方法会根据用户的指令尝试设置一个新的闹钟。
+	 *
+	 * @param parentComponent 父组件，或者也可以填<code> null </code>。
+	 * @param timeManager     管理线程类。
+	 */
 	public static void showClockDialog(Component parentComponent, TimeManager timeManager)
 	{
 		boolean checkStatus = true;
@@ -68,6 +82,13 @@ public class DialogManager
 		}
 	}
 
+	/**
+	 * 显示用于设置倒计时的对话框。<br/>
+	 * 该方法会根据用户的指令尝试设置一个新的倒计时。
+	 *
+	 * @param parentComponent 父组件，或者也可以填<code> null </code>。
+	 * @param timeManager     管理线程类。
+	 */
 	public static void showCountDialog(Component parentComponent, TimeManager timeManager)
 	{
 		boolean checkStatus = true;
