@@ -43,7 +43,6 @@ public class CountCheck implements Comparable<CountCheck>
 	/**
 	 * 检测方法，需要另外的线程定期调用这个方法来确认闹钟是否到时。<br/>
 	 * <strong><big>闹钟弹出的对话框会阻塞负责调用的线程！</big></strong><br/>
-	 * 如果不希望线程被阻塞请另外申请专门的线程来调用这个方法。
 	 *
 	 * @return 返回是否响铃。
 	 */
@@ -79,7 +78,7 @@ public class CountCheck implements Comparable<CountCheck>
 	/**
 	 * 获取倒计时是否已经过期。
 	 *
-	 * @return 已经过期返回<code>true<code/>，否则返回<code>false</code>。
+	 * @return 已经过期返回<code>true</code>，否则返回<code>false</code>。
 	 */
 	public boolean isOutdated()
 	{
@@ -90,7 +89,7 @@ public class CountCheck implements Comparable<CountCheck>
 	 * 比较方法，根据预计提醒的时间比较。
 	 *
 	 * @return 这个倒计时预计提醒时间较晚，返回<code> 1 </code>；这个闹钟预计提醒时间较早，返回<code> -1 </code>；
-	 * * 预计同时提醒，返回<code> 0 <code/>。
+	 * * 预计同时提醒，返回<code> 0 </code>。
 	 */
 	@Override
 	public int compareTo(CountCheck anotherObject)
@@ -102,7 +101,7 @@ public class CountCheck implements Comparable<CountCheck>
 	 * 哈希函数，根据预计提醒的时间生成。<br/>
 	 * 同一秒提醒的倒计时会生成相同的哈希值。
 	 *
-	 * @return 返回值为<code> ( 设定的提醒时间 / 1000 ) <code/>。
+	 * @return 返回值为<code> ( 设定的提醒时间 / 1000 ) </code>。
 	 */
 	@Override
 	public int hashCode()
