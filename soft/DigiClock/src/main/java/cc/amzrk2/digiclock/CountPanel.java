@@ -81,4 +81,15 @@ public class CountPanel extends JPanel
 		return new CountPanel(hashCode);
 	}
 
+        @Override
+        public int hashCode()
+        {
+            return this.hashCode;
+        }
+        
+        @Override
+        public boolean equals(Object obj)
+        {
+            return (obj instanceof CountPanel)&& this.hashCode == obj.hashCode();
+        }
 }

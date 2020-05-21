@@ -180,7 +180,7 @@ public class TimeManagerPanel extends JPanel
 				i++;
 			}
 			// this.countRootPane.revalidate();
-			this.clockRootPane.repaint();
+			this.countRootPane.repaint();
 			this.lastCountList = (LinkedList<CountPanel>) this.countList.clone();
 		}
 	}
