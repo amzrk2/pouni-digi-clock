@@ -14,10 +14,12 @@ import javax.swing.ScrollPaneConstants;
 
 /**
  * 时间管理总组件。继承自<code>javax.swing.JPanel</code>类。<br/>
- * 包含了闹钟组件和倒计时组件。
+ * 包含了闹钟组件和倒计时组件。<br/>
+ * 构造需要使用<code>TimeManager.createAndStartNewPanel()</code>方法。
  *
  * @author 8f235831
  * @see TimeManager
+ * @see TimeManager#createAndStartNewPanel()
  */
 public class TimeManagerPanel extends JPanel
 {
@@ -38,9 +40,11 @@ public class TimeManagerPanel extends JPanel
 
 	/**
 	 * 构造方法。<br/>
-	 * <strong><big>仅供<code>TimeManager</code>类创建！</big></strong>
+	 * <strong><big>仅供<code>TimeManager</code>类创建！</big></strong><br/>
+	 * 需使用<code>TimeManager.createAndStartNewPanel()</code>方法构造。
 	 *
 	 * @param timeManager 管理线程类。
+	 * @see TimeManager#createAndStartNewPanel()
 	 */
 	public TimeManagerPanel(TimeManager timeManager)
 	{
