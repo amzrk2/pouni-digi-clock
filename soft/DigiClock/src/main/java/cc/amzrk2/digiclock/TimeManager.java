@@ -40,7 +40,7 @@ public class TimeManager extends Thread
 		for (CountCheck item : this.removeCountList)
 		{
 			this.countList.remove(item);
-			this.panel.countList.remove(ClockPanel.getInstanceCompare(item.hashCode()));
+			this.panel.clockList.remove(ClockPanel.getInstanceCompare(item.hashCode()));
 		}
 		this.panel.repaintCountPane();
 		this.removeClockList = new LinkedList<>();
