@@ -52,11 +52,19 @@ public class ClockCheck implements Comparable<ClockCheck>
 		long i = (this.getNextRing() - System.currentTimeMillis());
 		calendar.setTimeInMillis(this.schedule);
 		this.setCheckStatus(this.clockPanel.enableCheckBox.isSelected());
-
-		this.clockPanel.content_1.setText(calendar.get(Calendar.HOUR_OF_DAY) + " : " + calendar.get(Calendar.MINUTE));
+		int h_1 = calendar.get(Calendar.HOUR_OF_DAY);
+		int m_1 = calendar.get(Calendar.MINUTE);
+		this.clockPanel.content_1.setText(((h_1 >= 10) ? (h_1) : ("0" + h_1))
+		                                  + " : " + ((m_1 >= 10) ? (m_1) : ("0" + m_1)));
+		int h_2 = (int) (i / 3600000);
+		int m_2 = (int) ((i % 3600000) / 60000);
+		int s_2 = (int) ((i / 1000 % 3600) % 60);
 		this.clockPanel.content_2.setText(
-				(this.checkStatus) ? ("距下次响铃 " + (i / 3600000) + " : " + ((i % 3600000) / 60000) + " : " +
-				                      (((i / 1000 % 3600) % 60))) : ("闹钟已关闭"));
+				(this.checkStatus)
+						? ("距下次响铃 " + ((h_2 >= 10) ? (h_2) : ("0" + h_2))
+						   + " : " + ((m_2 >= 10) ? (m_2) : ("0" + m_2))
+						   + " : " + ((s_2 >= 10) ? (s_2) : ("0" + s_2)))
+						: ("闹钟已关闭"));
 
 		// 检查状态。
 		if ((System.currentTimeMillis() >
