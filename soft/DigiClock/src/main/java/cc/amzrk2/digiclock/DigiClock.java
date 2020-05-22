@@ -6,22 +6,45 @@ package cc.amzrk2.digiclock;
 
 import java.awt.*;
 import javax.swing.*;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 public class DigiClock extends JFrame implements Runnable {
 
     public ClockDrawPanel clockPanel; // 数字钟主显示 Panel
+    public WorldClockDrawPanel worldPanel; // 世界时钟显示 Panel
+    public DefaultComboBoxModel<String> wtModel; // 世界时钟所有可选时区
     public JPanel tmPanel; // 闹钟模块 Panel
     public Thread clockThread; // 时钟运作线程
-    public static final Font fontLg = new java.awt.Font("SansSerif", 0, 16);
-    public static final Font fontSm = new java.awt.Font("SansSerif", 0, 14);
+    public static final Font fontLg = new java.awt.Font("SansSerif", 0, 16); // 字体（大）
+    public static final Font fontSm = new java.awt.Font("SansSerif", 0, 14); // 字体（小）
 
     public DigiClock() {
-        initComponents(); // 初始化 NetBeans 生成组件
+        // 初始化世界时钟所有可选时区
+        Set<String> allZones = ZoneId.getAvailableZoneIds();
+        ArrayList<String> zoneString = new ArrayList<>();
+        // 移除过期时区
+        int i = 0;
+        allZones.stream()
+                .filter((zone) -> (Pattern.matches("^(Asia|Africa|America|Antarctica|Atlantic|Europe|Australia|Indian|Pacific)/.*", zone)))
+                .forEachOrdered((zone) -> {
+                    zoneString.add(zone);
+                });
+        Collections.sort(zoneString);
+        wtModel = new DefaultComboBoxModel<>(zoneString.toArray(new String[zoneString.size()]));
+        // 初始化 NetBeans 生成组件
+        initComponents();
         // 初始化自定义数字钟主显示 Panel
         initClockDrawPanel();
         clockPanel.initClockPanelData();
-        // 初始化闹钟模块 Panel
-        initTimeManager();
+        // 初始化世界时钟 Panel
+        initWorldClockDrawPanel();
+        worldPanel.initWorldClockPanelData();
+        initTimeManager(); // 初始化闹钟模块 Panel
         // 启动时钟运作线程
         clockThread = new Thread(this, "clockThread");
         clockThread.start();
@@ -69,6 +92,28 @@ public class DigiClock extends JFrame implements Runnable {
         pack();
     }
 
+    // 初始化世界时钟 Panel
+    private void initWorldClockDrawPanel() {
+        worldPanel = new WorldClockDrawPanel();
+        worldPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // 边框
+        worldPanel.setPreferredSize(new Dimension(310, 150)); // 设置世界时钟 Panel 大小
+        // 将世界时钟 Panel 加入 mainFrame 的 layout
+        // mainFrame 的 layout 已于 initComponents() 中修改过，这里获取并修改
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        // 右 固定30px 左 至少460px
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(460, Short.MAX_VALUE).addComponent(worldPanel).addGap(30, 30, 30))
+        );
+        // 上 至少275px
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(275, Short.MAX_VALUE).addComponent(worldPanel).addContainerGap(30, Short.MAX_VALUE))
+        );
+        pack();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,8 +126,6 @@ public class DigiClock extends JFrame implements Runnable {
         wtComboBox = new javax.swing.JComboBox<>();
         exitButton = new javax.swing.JButton();
         aboutButton = new javax.swing.JButton();
-        worldClockPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("数字时钟");
@@ -90,7 +133,12 @@ public class DigiClock extends JFrame implements Runnable {
         setResizable(false);
 
         wtComboBox.setFont(getFont());
-        wtComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Europe/Paris", "Asia/Shanghai", "Item 3", "Item 4" }));
+        wtComboBox.setModel(wtModel);
+        wtComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wtComboBoxActionPerformed(evt);
+            }
+        });
 
         exitButton.setFont(getFont());
         exitButton.setText("退出");
@@ -108,27 +156,6 @@ public class DigiClock extends JFrame implements Runnable {
             }
         });
 
-        worldClockPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
-        jLabel1.setText("世界时钟预留");
-
-        javax.swing.GroupLayout worldClockPanelLayout = new javax.swing.GroupLayout(worldClockPanel);
-        worldClockPanel.setLayout(worldClockPanelLayout);
-        worldClockPanelLayout.setHorizontalGroup(
-            worldClockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(worldClockPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        worldClockPanelLayout.setVerticalGroup(
-            worldClockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(worldClockPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,18 +165,15 @@ public class DigiClock extends JFrame implements Runnable {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(wtComboBox, 0, 310, Short.MAX_VALUE)
                     .addComponent(aboutButton, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                    .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(worldClockPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(210, 210, 210)
+                .addGap(215, 215, 215)
                 .addComponent(wtComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(worldClockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 269, Short.MAX_VALUE)
                 .addComponent(aboutButton)
                 .addGap(15, 15, 15)
                 .addComponent(exitButton)
@@ -160,13 +184,18 @@ public class DigiClock extends JFrame implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void aboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutButtonActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "2020  B18030616 & B18030620 & B18030626 under The Unlicense");
     }//GEN-LAST:event_aboutButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
-        // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_exitButtonActionPerformed
+
+    // 设置世界时钟的时区
+    private void wtComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wtComboBoxActionPerformed
+        String zoneString = wtComboBox.getSelectedItem().toString();
+        worldPanel.setZone(zoneString);
+    }//GEN-LAST:event_wtComboBoxActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -189,6 +218,7 @@ public class DigiClock extends JFrame implements Runnable {
     public void run() {
         while (true) {
             clockPanel.repaint();
+            worldPanel.repaint();
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -201,8 +231,6 @@ public class DigiClock extends JFrame implements Runnable {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutButton;
     private javax.swing.JButton exitButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel worldClockPanel;
     private javax.swing.JComboBox<String> wtComboBox;
     // End of variables declaration//GEN-END:variables
 }

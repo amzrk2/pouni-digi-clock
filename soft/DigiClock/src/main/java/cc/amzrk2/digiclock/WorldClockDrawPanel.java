@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @author amzrk2
  */
-public class ClockDrawPanel extends JPanel {
+public class WorldClockDrawPanel extends JPanel {
 
     private Font clockPanelFont;
     private Font clockDateFont;
@@ -21,19 +21,25 @@ public class ClockDrawPanel extends JPanel {
     private int yCAxis;
     // 绘图用数据初始化状态检测
     private boolean initStatus = false;
-    String[] weekDays = new String[]{"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+    private String zoneString; //时区
 
     // 初始化绘图用数据
-    public void initClockPanelData() {
-        // 数字钟主显示 Panel 字体
-        this.clockPanelFont = new Font("Arial", Font.BOLD, 80);
-        // 日期、星期字体
+    public void initWorldClockPanelData() {
+        // 世界时钟 Panel 字体
+        this.clockPanelFont = new Font("Arial", Font.BOLD, 48);
+        // 日期字体
         this.clockDateFont = new Font("微软雅黑", Font.PLAIN, 24);
-        // 数字钟主显示 Panel 中心点 x 坐标
+        // 世界时钟 Panel 中心点 x 坐标
         this.xCAxis = this.getWidth() / 2;
-        // 数字钟主显示 Panel 中心点 y 坐标
+        // 世界时钟 Panel 中心点 y 坐标
         this.yCAxis = this.getHeight() / 2;
+        this.zoneString = "Europe/Paris";
         this.initStatus = true;
+    }
+
+    // 设置时区
+    public synchronized void setZone(String zoneString) {
+        this.zoneString = zoneString;
     }
 
     // 重写 paintComponent 避免闪烁
@@ -48,25 +54,21 @@ public class ClockDrawPanel extends JPanel {
             // 2倍粗边框
             g2d.setStroke(new BasicStroke(2f));
             // 获取当前日期和时间
-            LocalDateTime localTime = LocalDateTime.now();
+            ZonedDateTime zoneTime = ZonedDateTime.now(ZoneId.of(zoneString));
             // 绘制时间
-            String time = localTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            String time = zoneTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
             g2d.setFont(clockPanelFont); // 时间字体
             FontMetrics dateFm = g2d.getFontMetrics(clockPanelFont);
             int stringHeight = dateFm.getAscent() - dateFm.getDescent() - dateFm.getLeading();
             int stringWidth = dateFm.stringWidth(time); // 时间字体宽度
-            g2d.drawString(time, xCAxis - 150 - stringWidth / 2, yCAxis + stringHeight / 2);
+            g2d.drawString(time, xCAxis - stringWidth / 2, yCAxis + stringHeight / 2 - 20);
             // 绘制日期
-            String date = localTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String date = zoneTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             g2d.setFont(clockDateFont); // 日期字体
             dateFm = g2d.getFontMetrics(clockDateFont);
             stringHeight = dateFm.getAscent() - dateFm.getDescent() - dateFm.getLeading();
             stringWidth = dateFm.stringWidth(date); // 日期字体宽度
-            g2d.drawString(date, xCAxis + 180 - stringWidth / 2, yCAxis - 20 + stringHeight / 2);
-            // 绘制星期
-            String day = weekDays[localTime.getDayOfWeek().getValue() - 1];
-            stringWidth = dateFm.stringWidth(day); // 星期字体宽度
-            g2d.drawString(day, xCAxis + 180 - stringWidth / 2, yCAxis + 20 + stringHeight / 2);
+            g2d.drawString(date, xCAxis - stringWidth / 2, yCAxis + stringHeight / 2 + 25);
         } else {
             throw new RuntimeException("PaintingDataNotInitialized");
         }
