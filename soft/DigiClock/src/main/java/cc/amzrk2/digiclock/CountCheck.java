@@ -54,8 +54,12 @@ public class CountCheck implements Comparable<CountCheck>
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(this.schedule);
 		long i = (this.schedule - System.currentTimeMillis());
-		this.countPanel.content_1.setText("倒计时 " + ((i / 3600000) + " : " + ((i % 3600000) / 60000) + " : " +
-		                                            (((i / 1000 % 3600) % 60))));
+		int h = (int) (i / 3600000);
+		int m = (int) ((i % 3600000) / 60000);
+		int s = (int) ((i / 1000 % 3600) % 60);
+		this.countPanel.content_1.setText("倒计时 " + ((h >= 10) ? (h) : ("0" + h))
+		                                  + " : " + ((m >= 10) ? (m) : ("0" + m))
+		                                  + " : " + ((s >= 10) ? (s) : ("0" + s)));
 		this.countPanel.content_2.setText("目标时间 " + (new SimpleDateFormat("HH:mm:ss")).format(calendar.getTime()));
 
 		// 检查状态。
