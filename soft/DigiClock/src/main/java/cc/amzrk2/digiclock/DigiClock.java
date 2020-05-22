@@ -44,6 +44,7 @@ public class DigiClock extends JFrame implements Runnable {
         // 初始化世界时钟 Panel
         initWorldClockDrawPanel();
         worldPanel.initWorldClockPanelData();
+        worldPanel.setZone(wtComboBox.getItemAt(0));
         initTimeManager(); // 初始化闹钟模块 Panel
         // 启动时钟运作线程
         clockThread = new Thread(this, "clockThread");

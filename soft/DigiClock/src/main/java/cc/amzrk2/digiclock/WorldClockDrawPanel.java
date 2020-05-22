@@ -33,7 +33,7 @@ public class WorldClockDrawPanel extends JPanel {
         this.xCAxis = this.getWidth() / 2;
         // 世界时钟 Panel 中心点 y 坐标
         this.yCAxis = this.getHeight() / 2;
-        this.zoneString = "Europe/Paris";
+        this.zoneString = "Asia/Shanghai";
         this.initStatus = true;
     }
 
