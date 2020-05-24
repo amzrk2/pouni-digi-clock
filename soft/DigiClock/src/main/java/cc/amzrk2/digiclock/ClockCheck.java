@@ -239,7 +239,7 @@ public class ClockCheck implements Comparable<ClockCheck>
 	{
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(this.schedule);
-		return ((calendar.get(Calendar.HOUR_OF_DAY) << 8) + calendar.get(Calendar.MINUTE));
+		return calculateHashCode(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 	}
 
 	/**
@@ -249,5 +249,16 @@ public class ClockCheck implements Comparable<ClockCheck>
 	public boolean equals(Object obj)
 	{
 		return (obj instanceof ClockCheck) && (this.hashCode() == obj.hashCode());
+	}
+
+	/**
+	 * 根据hour和min计算相应的哈希值。
+	 * @param hour 小时，24小时制。
+	 * @param min 分钟。
+	 * @return 返回哈希值。
+	 */
+	public static int calculateHashCode(int hour, int min)
+	{
+		return (hour << 8) + min;
 	}
 }
