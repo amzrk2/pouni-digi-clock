@@ -51,7 +51,7 @@ public class DialogManager
 					int alarmHourI = Integer.parseInt(alarmHour);
 					int alarmMinuteI = Integer.parseInt(alarmMinute);
 					// 时间有效
-					if (alarmHourI >= 0 && alarmHourI <= 24 && alarmMinuteI >= 0 && alarmMinuteI <= 59)
+					if (alarmHourI >= 0 && alarmHourI < 24 && alarmMinuteI >= 0 && alarmMinuteI <= 59)
 					{
 						// 检查闹钟是否已经存在
 						if (timeManager.containsClock(ClockCheck.calculateHashCode(alarmHourI, alarmMinuteI)))
