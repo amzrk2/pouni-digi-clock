@@ -141,13 +141,13 @@ public class CountPanel extends JPanel implements Comparable<CountPanel>
 	 * 比较方法，比较哪一个组件更早。
 	 *
 	 * @param o 另一个组件。
-	 * @return 这个倒计时结束的时间较早，返回<code> 1 </code>；
-	 * 这个闹倒计时结束的时间较晚，返回<code> -1 </code>；
+	 * @return 这个倒计时结束的时间较早，返回<code> -1 </code>；
+	 * 这个闹倒计时结束的时间较晚，返回<code> 1 </code>；
 	 * 结束时间相同，返回<code> 0 </code>。
 	 */
 	@Override
 	public int compareTo(CountPanel o)
 	{
-		return -(Integer.compare(this.hashCode, o.hashCode));
+		return Integer.compare(this.hashCode, o.hashCode);
 	}
 }
