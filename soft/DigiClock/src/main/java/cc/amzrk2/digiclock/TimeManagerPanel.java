@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Arrays;
 import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -166,19 +167,18 @@ public class TimeManagerPanel extends JPanel
 			constraints.gridx = 0;
 
 			this.clockRootPane.removeAll();
-			int i = 0;
-			for (ClockPanel item : this.clockList)
+			ClockPanel[] clockPanelList = this.clockList.toArray(new ClockPanel[0]);
+			Arrays.sort(clockPanelList);// 整理顺序。
+			for (int i = 0; i < clockPanelList.length; i++)
 			{
 				constraints.gridy = i;
-				layout.setConstraints(item, constraints);
-				this.clockRootPane.add(item);
-				i++;
+				layout.setConstraints(clockPanelList[i], constraints);
+				this.clockRootPane.add(clockPanelList[i]);
 			}
 			// this.clockRootPane.revalidate();
 			this.clockRootPane.repaint();
 			this.lastClockList = (LinkedList<ClockPanel>) this.clockList.clone();
 		}
-
 	}
 
 	/**
@@ -201,13 +201,13 @@ public class TimeManagerPanel extends JPanel
 			constraints.gridx = 0;
 
 			this.countRootPane.removeAll();
-			int i = 0;
-			for (CountPanel item : this.countList)
+			CountPanel[] countPanelList = this.countList.toArray(new CountPanel[0]);
+			Arrays.sort(countPanelList);// 整理顺序。
+			for (int i = 0; i < countPanelList.length; i++)
 			{
 				constraints.gridy = i;
-				layout.setConstraints(item, constraints);
-				this.countRootPane.add(item);
-				i++;
+				layout.setConstraints(countPanelList[i], constraints);
+				this.countRootPane.add(countPanelList[i]);
 			}
 			// this.countRootPane.revalidate();
 			this.countRootPane.repaint();
