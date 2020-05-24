@@ -117,13 +117,13 @@ public class ClockPanel extends JPanel implements Comparable<ClockPanel>
 	 * 比较方法，比较哪一个组件更早。
 	 *
 	 * @param o 另一个组件。
-	 * @return 这个闹钟显示的时间较早，返回<code> 1 </code>；这个闹钟显示的时间较晚，返回<code> -1 </code>；
+	 * @return 这个闹钟显示的时间较早，返回<code> -1 </code>；这个闹钟显示的时间较晚，返回<code> 1 </code>；
 	 * 显示的相同，返回<code> 0 </code>。
 	 */
 	@Override
 	public int compareTo(ClockPanel o)
 	{
-		return -(Integer.compare(this.hashCode, o.hashCode));
+		return Integer.compare(this.hashCode, o.hashCode);
 	}
 
 	/**
@@ -137,6 +137,7 @@ public class ClockPanel extends JPanel implements Comparable<ClockPanel>
 
 	/**
 	 * 返回设定的哈希值。
+	 *
 	 * @return 设定的哈希值。
 	 */
 	@Override
@@ -147,6 +148,7 @@ public class ClockPanel extends JPanel implements Comparable<ClockPanel>
 
 	/**
 	 * 根据给定的哈希值，生成一个用于比较的实例。该实例不能用于嵌入窗口中显示。
+	 *
 	 * @param hashCode 给定的哈希值。
 	 * @return 返回一个实例。
 	 */
