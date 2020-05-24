@@ -54,7 +54,7 @@ public class DialogManager
 					if (alarmHourI >= 0 && alarmHourI <= 24 && alarmMinuteI >= 0 && alarmMinuteI <= 59)
 					{
 						// 检查闹钟是否已经存在
-						if (timeManager.containsClock(alarmHourI << 8 + alarmMinuteI))
+						if (timeManager.containsClock(ClockCheck.calculateHashCode(alarmHourI, alarmMinuteI)))
 						{
 							JOptionPane.showMessageDialog(parentComponent, "闹钟已存在。", "提示", JOptionPane.ERROR_MESSAGE);
 						}
