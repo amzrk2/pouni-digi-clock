@@ -28,7 +28,7 @@ public class ClockDrawPanel extends JPanel {
         // 数字钟主显示 Panel 字体
         this.clockPanelFont = new Font("Arial", Font.BOLD, 80);
         // 日期、星期字体
-        this.clockDateFont = new Font("微软雅黑", Font.PLAIN, 24);
+        this.clockDateFont = new Font("Microsoft YaHei", Font.PLAIN, 24);
         // 数字钟主显示 Panel 中心点 x 坐标
         this.xCAxis = this.getWidth() / 2;
         // 数字钟主显示 Panel 中心点 y 坐标

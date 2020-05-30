@@ -28,7 +28,7 @@ public class WorldClockDrawPanel extends JPanel {
         // 世界时钟 Panel 字体
         this.clockPanelFont = new Font("Arial", Font.BOLD, 48);
         // 日期字体
-        this.clockDateFont = new Font("微软雅黑", Font.PLAIN, 24);
+        this.clockDateFont = new Font("Microsoft YaHei", Font.PLAIN, 24);
         // 世界时钟 Panel 中心点 x 坐标
         this.xCAxis = this.getWidth() / 2;
         // 世界时钟 Panel 中心点 y 坐标

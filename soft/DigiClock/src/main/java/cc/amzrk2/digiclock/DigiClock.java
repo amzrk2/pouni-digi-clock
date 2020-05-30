@@ -20,8 +20,8 @@ public class DigiClock extends JFrame implements Runnable {
     public DefaultComboBoxModel<String> wtModel; // 世界时钟所有可选时区
     public JPanel tmPanel; // 闹钟模块 Panel
     public Thread clockThread; // 时钟运作线程
-    public static final Font fontLg = new java.awt.Font("SansSerif", 0, 16); // 字体（大）
-    public static final Font fontSm = new java.awt.Font("SansSerif", 0, 14); // 字体（小）
+    public static final Font fontLg = new java.awt.Font("Microsoft YaHei", 0, 16); // 字体（大）
+    public static final Font fontSm = new java.awt.Font("Microsoft YaHei", 0, 14); // 字体（小）
 
     public DigiClock() {
         // 初始化世界时钟所有可选时区
@@ -130,7 +130,7 @@ public class DigiClock extends JFrame implements Runnable {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("数字时钟");
-        setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
+        setFont(fontLg);
         setResizable(false);
 
         wtComboBox.setFont(getFont());
@@ -174,7 +174,7 @@ public class DigiClock extends JFrame implements Runnable {
             .addGroup(layout.createSequentialGroup()
                 .addGap(215, 215, 215)
                 .addComponent(wtComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 269, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 282, Short.MAX_VALUE)
                 .addComponent(aboutButton)
                 .addGap(15, 15, 15)
                 .addComponent(exitButton)
@@ -185,7 +185,7 @@ public class DigiClock extends JFrame implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void aboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutButtonActionPerformed
-        JOptionPane.showMessageDialog(this, "2020  B18030616 & B18030620 & B18030626 under The Unlicense");
+        JOptionPane.showMessageDialog(this, "v1.0.0-build20200525  B18030616 & B18030620 & B18030626 under The Unlicense");
     }//GEN-LAST:event_aboutButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
