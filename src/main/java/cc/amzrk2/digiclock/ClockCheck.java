@@ -74,7 +74,7 @@ public class ClockCheck implements Comparable<ClockCheck>
 			{
 				// 响铃。
 				musicThread = new AlarmMusic(
-						new File("神前暁 - ハレ晴レユカイ(こなたの着メロ).wav"));
+						new File("sound.wav"));
 				musicThread.start();
 				userResult = JOptionPane.CLOSED_OPTION;
 				while (userResult == JOptionPane.CLOSED_OPTION)

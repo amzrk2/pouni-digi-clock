@@ -1,4 +1,0 @@
-/*
-2020  B18030616 & B18030620 & B18030626 with The Unlicense
-For more information, please refer to <https://unlicense.org>
-*/
